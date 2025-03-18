@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-void read_entire_file_to_cstr(const char *path, int **data) {
+void read_entire_file_to_cstr(const char *path, void **data) {
 	//
 	// Open the file for reading
 	//
@@ -43,7 +43,7 @@ void read_entire_file_to_cstr(const char *path, int **data) {
 	//
 	// Allocate space for the file in memory
 	//
-	*data = malloc(length * sizeof *data);
+	*data = malloc(length);
 	if (*data == NULL) { 
 		fprintf(stderr, "ERROR allocating memory (%ld bytes) for %s: %s\n", length, path, strerror(errno));
 		fclose(file);
@@ -63,7 +63,7 @@ void read_entire_file_to_cstr(const char *path, int **data) {
 }
 
 int token; // current token
-int *src, *old_src; // pointer to the source code string
+char *src, *old_src; // pointer to the source code string
 int line; // line number
 
 void next(void) {
@@ -78,7 +78,7 @@ void expression(int level) {
 void program(void) {
 	next(); // get next token
 	while (token > 0) {
-		printf("token is: %d\n", token);
+		printf("token is: %c\n", token);
 		next();
 	}
 }
